@@ -26,18 +26,18 @@ def print_board(board, options):
     print('  '.join(options)+'\n'+'\n'.join(map('  '.join, board))+'\n')
 
 
-def valid_spot(spot, board):
-    return spot.isdigit() and 0 < int(spot) < 7 and board[0][int(spot)-1] == '*'
+def valid_spot(spot, board, board_width):
+    return spot.isdigit() and 0 < int(spot) <= board_width and board[0][int(spot)-1] == '*'
 
 
 def choose_spot(board, letter):
     s = input('Choose your spot: ')
-    while not valid_spot(s, board):
+    while not valid_spot(s, board, len(board[0])):
         s = input('Choose your spot: ')
     s = int(s)
 
     print('\n')
-    x = 6
+    x = len(board)-1
     while board[x][s - 1] != '*':
         x -= 1
     board[x][s - 1] = letter
@@ -98,8 +98,10 @@ def check_win(board, letter):
 
 
 def main():
-    options = ['1', '2', '3', '4', '5', '6', '7']
-    board = [['*' for _ in range(0, 7)] for _ in range(0, 7)]
+    board_width = 9
+    board_height = 6
+    options = [str(i) for i in range(1, board_width+1)]
+    board = [['*' for _ in range(0, board_width)] for _ in range(0, board_height)]
 
     one = create_user(1)
     two = create_user(2)
